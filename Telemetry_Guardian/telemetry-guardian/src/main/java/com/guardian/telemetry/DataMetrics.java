@@ -14,7 +14,9 @@ public class DataMetrics {
         return crc.getValue();
     }
 
-    public boolean verifyLatencyThreshold(long actualDurationMs, long thresholdMs) {
+    public boolean
+
+    verifyLatencyThreshold(long actualDurationMs, long thresholdMs) {
         if (actualDurationMs < 0 || thresholdMs <= 0) {
             throw new IllegalArgumentException("INVALID_METRIC: Time durations must be positive values.");
         }
