@@ -39,6 +39,9 @@ pipeline {
 
         stage('Enforce Quality Gate') {
             steps {
+                echo 'Allowing SonarQube background engine 15 seconds to process report...'
+                sleep time: 15, unit: 'SECONDS'
+
                 echo 'Enforcing architectural thresholds and waiting for Quality Gate status...'
                 timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
