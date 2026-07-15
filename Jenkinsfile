@@ -21,19 +21,16 @@ pipeline {
         stage('Build & Test') {
             steps {
                 echo 'Compiling source code and executing unit tests...'
-                dir('Telemetry_Guardian') {
-                    sh 'mvn clean test'
-                }
+                // Executing directly in the root directory now
+                sh 'mvn clean test'
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
                 echo 'Injecting SonarQube environment and initializing SAST scanning...'
-                dir('Telemetry_Guardian') {
-                    withSonarQubeEnv("${SONAR_SERVER}") {
-                        sh 'mvn sonar:sonar'
-                    }
+                withSonarQubeEnv("${SONAR_SERVER}") {
+                    sh 'mvn sonar:sonar'
                 }
             }
         }
@@ -53,9 +50,7 @@ pipeline {
         stage('Build Secure Container Image') {
             steps {
                 echo 'Quality Gate passed! Building rootless multi-stage production Docker image...'
-                dir('Telemetry_Guardian') {
-                    sh 'docker build -t telemetry-guardian:latest .'
-                }
+                sh 'docker build -t telemetry-guardian:latest .'
             }
         }
     }
